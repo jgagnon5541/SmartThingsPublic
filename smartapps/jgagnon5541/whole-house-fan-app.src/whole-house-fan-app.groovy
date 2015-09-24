@@ -120,15 +120,15 @@ def checkThings(evt) {
     } else if(!shouldRun && state.fanRunning) {
     	fans.off();
         state.fanRunning = false;
-        if(!somethingOpen){
-        if( outsideTemp > settings.minTemp) {
-        log.debug "Setting thermostat to cool"
-        thermostat.cool()
-        } else {
-        log.debug "Setting thermostat to auto"
-        thermostat.auto()
-        }
-     }
+        /* if(!somethingOpen){
+        	if( outsideTemp > settings.minTemp) {
+        		log.debug "Setting thermostat to cool"
+        		thermostat.cool()
+      		} else {
+        		log.debug "Setting thermostat to auto"
+        		thermostat.auto()
+        		}
+     		} */
         
     }
 }
