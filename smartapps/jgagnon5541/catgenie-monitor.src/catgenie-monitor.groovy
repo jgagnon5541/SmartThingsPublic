@@ -108,7 +108,7 @@ def checkRunning() {
             if (duration > startDelayMsec) {
 				if(!state.fanRunning) {
                		log.debug "Sending notification"
-                    sendPush msg1
+                    // sendPush msg1
 					fan.on()
                     state.fanRunning = true;
                     
@@ -131,7 +131,7 @@ def checkRunning() {
 						log.info "Turning off the fan"
                         fan.off()
                         state.fanRunning = false;
-                        sendPush msg
+                        // sendPush msg
 					 
 				}
 			} else {

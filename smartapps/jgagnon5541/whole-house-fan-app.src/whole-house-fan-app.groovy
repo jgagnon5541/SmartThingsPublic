@@ -79,7 +79,6 @@ def checkThings(evt) {
     def insideTemp = settings.inTemp.currentTemperature
     def thermostatMode = settings.thermostat.currentThermostatMode
     def somethingOpen = settings.checkContacts == 'No' || settings.contacts?.find { it.currentContact == 'open' }
-    
     log.debug "Inside: $insideTemp, Outside: $outsideTemp, Thermostat: $thermostatMode, Something Open: $somethingOpen"
     
     def now = new Date()
@@ -93,12 +92,23 @@ def checkThings(evt) {
     def between = timeOfDayIsBetween(startCheck, stopCheck, now, location.timeZone)
     log.debug "between: ${between}"
     def shouldRun = true
+    def minoutsideTemp = outsideTemp + 3
+    log.debug "minoutsideTemp: ${minoutsideTemp}"
     
-    
-    if(insideTemp < outsideTemp) {
-    	log.debug "Not running due to insideTemp < outdoorTemp"
+    if((insideTemp <= minoutsideTemp) && !state.fanRunning) {
+    	log.debug "Not running due to insideTemp: ${insideTemp} <= outsideTemp ${outsideTemp}+ 3 = ${minoutsideTemp}"
     	shouldRun = false;
     }
+    
+    if((insideTemp <= outsideTemp) && state.fanRunning) {
+    	log.debug "Not running due to insideTemp: ${insideTemp} <= outdoorTemp: ${minoutsideTemp}"
+    	shouldRun = false;
+    }
+    
+    /* if(insideTemp <= minoutsideTemp) {
+    	log.debug "Not running due to insideTemp: ${insideTemp} < outdoorTemp: ${minoutsideTemp}"
+    	shouldRun = false;
+    } */
     
     if(insideTemp < settings.minTemp) {
     	log.debug "Not running due to insideTemp < minTemp"
